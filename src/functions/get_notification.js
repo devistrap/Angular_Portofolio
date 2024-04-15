@@ -1,13 +1,18 @@
 const { app } = require('@azure/functions');
 
+
 app.http('get_notification', {
     methods: ['GET', 'POST'],
     authLevel: 'anonymous',
     handler: async (request, context) => {
-        context.log(`Http function processed request for url "${request.url}"`);
-
-        const name = request.query.get('name') || await request.text() || 'world';
-
-        return { body: `Hello, ${name}!` };
+        let fs = require('fs');
+        console.log('get_notification function is called');
+        fs.readFile('notification.json', 'utf8', function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(data);
+            }
+        });
     }
 });
